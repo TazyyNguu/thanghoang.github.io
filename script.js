@@ -6,11 +6,11 @@ async function predict() {
         return;
     }
 
-    // nhập dạng: 1,2,3,4
-    let arr = input.split(",").map(Number);
-
     try {
-        let res = await fetch("https://ai-backend-4ibq.onrender.com/predict", {
+        // ví dụ nhập: 0,491,0,...
+        let arr = input.split(",").map(Number);
+
+        let res = await fetch("https://ai-backend.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -27,31 +27,6 @@ async function predict() {
         }
 
     } catch (err) {
-        document.getElementById("result").innerText = "Lỗi kết nối API!";
+        document.getElementById("result").innerText = "❌ Không kết nối được API!";
     }
-}
-
-// đọc CSV
-function loadCSV() {
-    let file = document.getElementById("fileInput").files[0];
-    if (!file) return;
-
-    let reader = new FileReader();
-    reader.onload = function(e) {
-        let text = e.target.result;
-        let rows = text.split("\n");
-        let table = document.getElementById("table");
-        table.innerHTML = "";
-
-        rows.forEach(row => {
-            let cols = row.split(",");
-            let tr = "<tr>";
-            cols.forEach(col => {
-                tr += "<td>" + col + "</td>";
-            });
-            tr += "</tr>";
-            table.innerHTML += tr;
-        });
-    };
-    reader.readAsText(file);
 }
