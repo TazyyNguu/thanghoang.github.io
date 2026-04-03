@@ -1,4 +1,4 @@
-// ================== PREDICT AI ==================
+// ================== PREDICT ==================
 async function predict() {
     let input = document.getElementById("input").value.trim();
 
@@ -8,10 +8,10 @@ async function predict() {
     }
 
     try {
-        // giữ nguyên string (vì có tcp, http,...)
+        // giữ string vì có tcp, private, REJ
         let arr = input.split(",");
 
-        let res = await fetch("https://ai-backend-1-4bzm.onrender.com/predict", {
+        let res = await fetch("https://ai-backend-3-8cdw.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -19,22 +19,18 @@ async function predict() {
             body: JSON.stringify({ data: arr })
         });
 
-        // kiểm tra lỗi HTTP
         if (!res.ok) {
             throw new Error("API lỗi: " + res.status);
         }
 
         let data = await res.json();
 
-        if (data.result) {
-            document.getElementById("result").innerText = "Kết quả: " + data.result;
-        } else {
-            document.getElementById("result").innerText = "Lỗi: " + data.error;
-        }
+        document.getElementById("result").innerText =
+            data.result || ("Lỗi: " + data.error);
 
     } catch (err) {
         console.error(err);
-        document.getElementById("result").innerText = "❌ Lỗi kết nối API!";
+        document.getElementById("result").innerText = "❌ Không kết nối được API!";
     }
 }
 
@@ -44,7 +40,7 @@ function loadCSV() {
     let fileInput = document.getElementById("fileInput");
 
     if (!fileInput.files.length) {
-        alert("⚠️ Chọn file CSV trước!");
+        alert("⚠️ Chọn file CSV!");
         return;
     }
 
@@ -59,7 +55,7 @@ function loadCSV() {
         table.innerHTML = "";
 
         rows.forEach(row => {
-            if (row.trim() === "") return;
+            if (!row.trim()) return;
 
             let cols = row.split(",");
             let tr = document.createElement("tr");
