@@ -7,8 +7,8 @@ async function predict() {
     }
 
     try {
-        // ví dụ nhập: 0,491,0,...
-        let arr = input.split(",").map(Number);
+        // giữ nguyên string (không map Number)
+        let arr = input.split(",");
 
         let res = await fetch("https://ai-backend.onrender.com/predict", {
             method: "POST",
@@ -20,13 +20,10 @@ async function predict() {
 
         let data = await res.json();
 
-        if (data.result) {
-            document.getElementById("result").innerText = "Kết quả: " + data.result;
-        } else {
-            document.getElementById("result").innerText = "Lỗi: " + data.error;
-        }
+        document.getElementById("result").innerText =
+            data.result || data.error;
 
     } catch (err) {
-        document.getElementById("result").innerText = "❌ Không kết nối được API!";
+        document.getElementById("result").innerText = "❌ Lỗi kết nối API!";
     }
 }
