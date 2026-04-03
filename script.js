@@ -10,7 +10,7 @@ async function predict() {
     let arr = input.split(",").map(Number);
 
     try {
-        let res = await fetch("https://ai-backend.onrender.com/predict", {
+        let res = await fetch("https://ai-backend-4ibq.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
