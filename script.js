@@ -7,10 +7,9 @@ async function predict() {
     }
 
     try {
-        // giữ nguyên string (không map Number)
         let arr = input.split(",");
 
-        let res = await fetch("https://ai-backend.onrender.com/predict", {
+        let res = await fetch("https://ai-backend-1-4bzm.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
